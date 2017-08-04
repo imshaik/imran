@@ -1,1 +1,1 @@
-shaik(echo "Hello imran");
+imran(echo "Hello shaik");

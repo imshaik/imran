@@ -1,0 +1,14 @@
+version: '2'
+services:
+  httpd:
+       #build: .
+       image: imran:latest
+       #restart: unless-stopped
+       volumes:
+        - "/root/:/root"
+       container_name: httpd
+       ports:
+        - 80:80/tcp
+       tty: true
+       command: /root/httpd.sh
+    

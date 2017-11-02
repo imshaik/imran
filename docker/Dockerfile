@@ -7,7 +7,7 @@ RUN yum install httpd -y
 
 #copy httpd.sh script from local to container
 
-ADD httpd.sh /root/httpd.sh
+COPY httpd.sh /root/httpd.sh
 
 #WORKDIR /root
 

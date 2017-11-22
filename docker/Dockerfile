@@ -1,6 +1,6 @@
 
 # Set the base image
-FROM centos:latest
+FROM shaikimranashrafi/centos:latest
 
 # Update application repository list
 RUN yum install httpd -y

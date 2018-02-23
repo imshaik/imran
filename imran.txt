@@ -1,4 +1,2 @@
-
-
 echo "Hi imran"
 echo "Hi Sakinah Tabassum"

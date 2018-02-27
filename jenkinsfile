@@ -7,6 +7,11 @@ import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import java.net.URL
 
+#!/usr/bin/env groovy
+
+@Library('pipeline-groovy')
+import com.lowes.jenkins.shared.StashPipelineSteps
+
 try {
     //agent { label 'docker' } we can use this as well
     node('Docker') 
@@ -14,6 +19,9 @@ try {
         //branch name from Jenkins environment variables
             echo "Branch selected is: ${env.BRANCH_NAME}" 
             echo "Build number is: ${env.BUILD_NUMBER}"
+		
+		def git	           = new GitPipelineSteps(steps);
+	      //def docker	   = new DockerPipelineSteps(steps);
 		
 		def reponame       = "imran"
 		def dockerreponame = "httpd"
@@ -23,15 +31,18 @@ try {
         
         stage('Clean workspace')
         {
-        /*Clean the workspace before  we do anything
+        /*Cleans the workspace
         */
             deleteDir()
         }
         
         stage('Clone repository') 
         {
-            git branch: "${env.BRANCH_NAME}", credentialsId: 'Github', url: "https://github.com/imshaik/${reponame}.git"
-        }
+           // git branch: "${env.BRANCH_NAME}", credentialsId: 'Github', url: "https://github.com/imshaik/${reponame}.git"
+		
+		git.checkout(reponame,env.BRANCH_NAME);
+		gitHead = git.commit();
+	}
            
         stage('Check if dockerfile is exist or not')
         {

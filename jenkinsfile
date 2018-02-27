@@ -10,7 +10,7 @@ import java.net.URL
 #!/usr/bin/env groovy
 
 @Library('pipeline-groovy')
-import com.lowes.jenkins.shared.StashPipelineSteps
+import com.imran.jenkins.GitPipelineSteps
 
 try {
     //agent { label 'docker' } we can use this as well

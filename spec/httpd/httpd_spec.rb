@@ -5,7 +5,7 @@ require 'serverspec'
     describe "test Dockerfile" do
       before(:all) do
 	#Docker.authenticate!('username' => ENV['DOCKER_USERNAME'], 'password' => ENV['DOCKER_PASSWORD'])
-        @image = Docker::Image.build_from_dir('../../../docker')
+        @image = Docker::Image.build_from_dir('docker')
 	#let(:image) { Docker::Image.build_from_dir('.') }
 	#@imageid = %x( docker images | grep shaikimranashrafi/httpd | awk 'NR==1{print $3;exit}' )
 	#@image = Docker::Image.get('imageid')
@@ -50,7 +50,7 @@ require 'serverspec'
     end
     
      describe file('/root/httpd.sh') do
-  	its(:content) { should match '/usr/sbin/httpd -k start && tail -f /dev/null' }
+  	its(:content) { should match '/usr/sbin/httpd -k start;tail -f /dev/null' }
      end
 
     describe 'Check whether index.html is exist' do

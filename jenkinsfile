@@ -38,7 +38,7 @@ try {
         {
            // git branch: "${env.BRANCH_NAME}", credentialsId: 'Github', url: "https://github.com/imshaik/${reponame}.git"
 		
-		git.checkout(reponame,env.BRANCH_NAME);
+		git.checkout(githuburl, env.BRANCH_NAME);
 		gitHead = git.commit();
 	}
            

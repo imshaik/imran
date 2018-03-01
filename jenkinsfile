@@ -9,6 +9,7 @@ import java.net.URL
 
 @Library('pipeline-groovy')
 import com.imran.jenkins.GitPipelineSteps
+import com.imran.jenkins.DockerPipelineSteps
 
 try {
     //agent { label 'docker' } we can use this as well
@@ -19,7 +20,7 @@ try {
             echo "Build number is: ${env.BUILD_NUMBER}"
 		
 		def git	           = new GitPipelineSteps(steps);
-	      //def docker	   = new DockerPipelineSteps(steps);
+	        def docker	   = new DockerPipelineSteps(steps);
 		
 		def reponame       = "imran"
 		def dockerreponame = "httpd"
@@ -68,14 +69,20 @@ try {
 	stage('Remove local images & containers') 
 	{
 		// remove docker images locally
-		echo 'Removing the image shaikimranashrafi/${dockerreponame}:${buildlabel}'
+		echo "Removing the image shaikimranashrafi/${dockerreponame}:${buildlabel}"
 		sh("docker rmi -f shaikimranashrafi/${dockerreponame}:${buildlabel}")
+		
+		/*remove docker images which doesnot have a name assigned
+		docker.RemoveImage();
+		
+		/*remove docker containers the one rakefile created
+		docker.RemoveContainer();
 
 		/*remove docker images which doesnot have a name assigned	
 		sh("docker rmi -f \${docker images | grep '<none>' | tr -s ' ' | cut -d ' ' -f 3}")*/
 
-		// remove container the one rakefile created
-		sh("docker ps -a -q | xargs -n 1 -I {} sudo docker rm -f {}")
+		/* remove container the one rakefile created
+		sh("docker ps -a -q | xargs -n 1 -I {} sudo docker rm -f {}")*/
 	}
         
         stage ('Archive the .txt artifacts')

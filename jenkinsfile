@@ -1,11 +1,11 @@
 #!/usr/bin/env groovy
 
 import hudson.model.*
-import hudson.EnvVars
+/*import hudson.EnvVars
 import groovy.json.JsonSlurperClassic
 import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
-import java.net.URL
+import java.net.URL*/
 
 @Library('pipeline-groovy')
 import com.imran.jenkins.GitPipelineSteps
@@ -20,13 +20,13 @@ try {
             echo "Build number is: ${env.BUILD_NUMBER}"
 		
 		def git	           = new GitPipelineSteps(steps);
-	        def docker	   = new DockerPipelineSteps(steps);
+	        def Docker	   = new DockerPipelineSteps(steps);
 		
 		def reponame       = "imran"
 		def dockerreponame = "httpd"
 		def githuburl      = "https://github.com/imshaik/${reponame}.git"
 		def dockerurl      = "https://hub.docker.com/r/shaikimranashrafi/${dockerreponame}"
-		def buildlabel     = "${env.BRANCH_NAME}-B${env.BUILD_NUMBER}"
+		def buildlabel     = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
         
         stage('Clean workspace')
         {
@@ -52,10 +52,7 @@ try {
             dir('docker') {
 		
 		def dockerimage = docker.build("shaikimranashrafi/${dockerreponame}:${buildlabel}").push()
-                /*def dockerimage = docker.build("shaikimranashrafi/${dockerreponame}:${buildlabel}").push()
-                Let's tag and push the newly built image. Will tag using the image name provided
-                  dockerimage.push()
-                 We can also push the image with passing tag name
+                 /* We can also push the image with passing tag name
                 dockerimage.push('latest') */
 
 			}
@@ -63,26 +60,22 @@ try {
 
 	stage ('Run the test on dockerfile')
 	{
-		sh("bundle exec rake")
+		sh("bundle exec rake spec 2> /dev/null")
 	}
 
 	stage('Remove local images & containers') 
 	{
-		// remove docker images locally
+		/*remove docker images locally
 		echo "Removing the image shaikimranashrafi/${dockerreponame}:${buildlabel}"
-		sh("docker rmi -f shaikimranashrafi/${dockerreponame}:${buildlabel}")
+		sh("docker rmi -f shaikimranashrafi/${dockerreponame}:${buildlabel}")*
 		
-		/*remove docker images which doesnot have a name assigned
-		docker.RemoveImage();
+		Docker.RemoveImage(dockerreponame, buildlabel);
+
+		//remove docker images which doesnot have a name assigned
+		Docker.RemoveNoneImage();
 		
-		/*remove docker containers the one rakefile created
-		docker.RemoveContainer();
-
-		/*remove docker images which doesnot have a name assigned	
-		sh("docker rmi -f \${docker images | grep '<none>' | tr -s ' ' | cut -d ' ' -f 3}")*/
-
-		/* remove container the one rakefile created
-		sh("docker ps -a -q | xargs -n 1 -I {} sudo docker rm -f {}")*/
+		//remove docker containers the one rakefile created
+		Docker.RemoveContainer();
 	}
         
         stage ('Archive the .txt artifacts')

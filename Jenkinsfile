@@ -67,7 +67,7 @@ try {
 	{
 		/*remove docker images locally
 		echo "Removing the image shaikimranashrafi/${dockerreponame}:${buildlabel}"
-		sh("docker rmi -f shaikimranashrafi/${dockerreponame}:${buildlabel}")*
+		sh("docker rmi -f shaikimranashrafi/${dockerreponame}:${buildlabel}")*/
 		
 		Docker.RemoveImage(dockerreponame, buildlabel);
 

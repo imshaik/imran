@@ -1,15 +1,15 @@
 
 # Set the base image
-FROM shaikimranashrafi/centos:latest
+FROM shaikimranashrafi/httpd:latest
 
 # Update application repository list
-RUN yum install httpd -y
+#RUN yum install httpd -y
 
 #copy httpd.sh script from local to container
 
 COPY httpd.sh /root/httpd.sh
 
-#WORKDIR /root
+#WORKDIR /usr/sbin
 
 # Set username
 #USER root

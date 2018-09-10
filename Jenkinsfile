@@ -26,7 +26,7 @@ try {
 		def dockerreponame = "httpd"
                 def nexushost      = "docker.imran.com:18443"
 		def githuburl      = "https://github.com/imshaik/${reponame}.git"
-		def nexusurl      = "${nexushost}/${dockerreponame}"
+		def nexusurl       = "${nexushost}/${dockerreponame}"
 		def buildlabel     = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
         
         stage('Clean workspace')
@@ -76,7 +76,7 @@ try {
 		Docker.RemoveNoneImage();
 		
 		//remove docker containers the one rakefile created
-		Docker.RemoveContainer();
+		//Docker.RemoveContainer();
 	}
         
         stage ('Archive the .txt artifacts')
